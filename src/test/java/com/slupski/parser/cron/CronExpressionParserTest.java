@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CronExpressionParserTest {
 
@@ -55,11 +56,11 @@ public class CronExpressionParserTest {
         Map<String, String> parsedExpression = parser.parse(cronExpression);
 
         //then
-        assertEquals(IntStream.rangeClosed(0,59).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("minute"));
-        assertEquals(IntStream.rangeClosed(0,23).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("hour"));
-        assertEquals(IntStream.rangeClosed(1,31).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("day of month"));
-        assertEquals(IntStream.rangeClosed(1,12).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("month"));
-        assertEquals(IntStream.rangeClosed(1,7).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("day of week"));
+        assertEquals(IntStream.rangeClosed(0, 59).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("minute"));
+        assertEquals(IntStream.rangeClosed(0, 23).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("hour"));
+        assertEquals(IntStream.rangeClosed(1, 31).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("day of month"));
+        assertEquals(IntStream.rangeClosed(1, 12).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("month"));
+        assertEquals(IntStream.rangeClosed(1, 7).boxed().map(String::valueOf).collect(Collectors.joining(" ")), parsedExpression.get("day of week"));
     }
 
     @Test
@@ -170,11 +171,8 @@ public class CronExpressionParserTest {
         //given
         String cronExpression = "1 2 3 4";
 
-        //when
-        CronExpressionParser parser = new CronExpressionParser();
-
-        //then
-        assertThrows(IllegalArgumentException.class, () -> parser.parse(cronExpression));
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> new CronExpressionParser().parse(cronExpression));
     }
 
     @Test
@@ -182,11 +180,8 @@ public class CronExpressionParserTest {
         //given
         String cronExpression = "1 2 3 4 5 6";
 
-        //when
-        CronExpressionParser parser = new CronExpressionParser();
-
-        //then
-        assertThrows(IllegalArgumentException.class, () -> parser.parse(cronExpression));
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> new CronExpressionParser().parse(cronExpression));
     }
 
     @Test
@@ -194,11 +189,8 @@ public class CronExpressionParserTest {
         //given
         String cronExpression = "1as1235";
 
-        //when
-        CronExpressionParser parser = new CronExpressionParser();
-
-        //then
-        assertThrows(IllegalArgumentException.class, () -> parser.parse(cronExpression));
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> new CronExpressionParser().parse(cronExpression));
     }
 
     @Test
@@ -206,10 +198,16 @@ public class CronExpressionParserTest {
         //given
         String cronExpression = "* & * * *";
 
-        //when
-        CronExpressionParser parser = new CronExpressionParser();
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> new CronExpressionParser().parse(cronExpression));
+    }
 
-        //then
-        assertThrows(IllegalArgumentException.class, () -> parser.parse(cronExpression));
+    @Test
+    void should_throw_illegal_argument_exception_when_value_is_not_allowed() {
+        //given
+        String cronExpression = "*/15 25 1,15 * 1-5";
+
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> new CronExpressionParser().parse(cronExpression));
     }
 }

@@ -36,7 +36,7 @@ class CronFieldParser {
         } else if (isAsterisk(expression)) {
             return handleAsterisk();
         } else if (isSingleNumber(expression)) {
-            return expression;
+            return handleSingleNumber(expression);
         }
 
         throw new IllegalArgumentException("Invalid expression: " + expression);
@@ -107,5 +107,14 @@ class CronFieldParser {
 
     private String[] splitBySeparator(final String expression, final String split) {
         return expression.split(split);
+    }
+
+    private String handleSingleNumber(String expression) {
+        int number = Integer.parseInt(expression);
+        if (allowedValues.contains(number)) {
+            return expression;
+        } else {
+            throw new IllegalArgumentException("Value " + number + " is not allowed.");
+        }
     }
 }
