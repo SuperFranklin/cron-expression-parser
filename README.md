@@ -22,3 +22,10 @@
 ## REQUIREMENTS
 
 - Java 17 or higher
+
+## JAVA INSTALLATION
+
+If You do not have Java installed
+
+- ```sudo apt update```
+- ```sudo apt install openjdk-17-jre```
