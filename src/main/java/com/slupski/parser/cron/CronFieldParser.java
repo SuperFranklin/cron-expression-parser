@@ -19,7 +19,7 @@ class CronFieldParser {
         this.allowedValues = allowedValues;
     }
 
-    static CronFieldParser withValuesBetween(final int start, final int end) {
+    static CronFieldParser withNumericValuesBetween(final int start, final int end) {
         List<Integer> values = IntStream.rangeClosed(start, end)
                 .boxed()
                 .toList();

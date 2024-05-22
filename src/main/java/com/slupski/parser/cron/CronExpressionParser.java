@@ -18,11 +18,11 @@ public class CronExpressionParser {
     private final CronFieldParser dayOfWeekParser;
 
     public CronExpressionParser() {
-        this.minuteParser = CronFieldParser.withValuesBetween(0, 59);
-        this.hourParser = CronFieldParser.withValuesBetween(0, 23);
-        this.dayOfMonthParser = CronFieldParser.withValuesBetween(1, 31);
-        this.monthParser = CronFieldParser.withValuesBetween(1, 12);
-        this.dayOfWeekParser = CronFieldParser.withValuesBetween(1, 7);
+        this.minuteParser = CronFieldParser.withNumericValuesBetween(0, 59);
+        this.hourParser = CronFieldParser.withNumericValuesBetween(0, 23);
+        this.dayOfMonthParser = CronFieldParser.withNumericValuesBetween(1, 31);
+        this.monthParser = CronFieldParser.withNumericValuesBetween(1, 12);
+        this.dayOfWeekParser = CronFieldParser.withNumericValuesBetween(1, 7);
     }
 
     public Map<String, String> parse(final String cronExpression) {
